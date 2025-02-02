@@ -3,14 +3,16 @@ import personManager from "@/services/person";
 
 export default function SearchForm() {
     const [name, setName] = useState("")
+    const [loading, setLoading] = useState(false)
     const [persons, setPersons] = useState([])
 
-    useEffect(() => submit(), [name])
-
-    function submit() {
+    function submit(e) {
+        e.preventDefault()
         if (name) {
+            setLoading(true)
             personManager.findAll(name).then(items => {
                 setPersons(items || [])
+                setLoading(false)
             })
         }
     }
@@ -20,19 +22,30 @@ export default function SearchForm() {
     }
 
     return (
-        <div>
+        <form onSubmit={submit}>
             <div className="row mb-3">
                 <label htmlFor="inputName" className="col-sm-2 col-form-label">Name:</label>
                 <div className="col-sm-10">
-                    <input value={name} onChange={(e) => setName(e.target.value.trimStart())} type="text" className="form-control" id="inputName" required />
+                    <div className="d-flex gap-3 align-items-center">
+                        <input value={name} onChange={(e) => setName(e.target.value.trimStart())} type="text" className="form-control" id="inputName" required />
+                        <button className="btn btn-primary" type="submit">Search</button>
+                    </div>
                 </div>
             </div>
 
             <ul className="list-group">
-                {name && (persons.length ? persons.map(person => (
+                {!loading && (persons.length ? persons.map(person => (
                     <li key={person.id} className="list-group-item d-flex align-center justify-content-between"><span>{person.name}</span><span>{formatDate(person?.dob)}</span></li>
                 )) : <div className="py-5 text-center text-secondary nothing-found">Nothing found</div>)}
             </ul>
-        </div>
+
+            {loading && <div className="loading d-flex align-items-center justify-content-center rounded py-5">
+                <div className="text-center">
+                    <div>
+                        <div className="spinner-border text-primary"></div>
+                    </div>
+                </div>
+            </div>}
+        </form>
     )
 }
