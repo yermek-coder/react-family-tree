@@ -20,7 +20,7 @@ export default function SearchForm() {
     }
 
     return (
-        <div onChange={submit}>
+        <div>
             <div className="row mb-3">
                 <label htmlFor="inputName" className="col-sm-2 col-form-label">Name:</label>
                 <div className="col-sm-10">
@@ -29,9 +29,9 @@ export default function SearchForm() {
             </div>
 
             <ul className="list-group">
-                {name && persons.map(person => (
+                {name && (persons.length ? persons.map(person => (
                     <li key={person.id} className="list-group-item d-flex align-center justify-content-between"><span>{person.name}</span><span>{formatDate(person?.dob)}</span></li>
-                ))}
+                )) : <div className="py-5 text-center text-secondary nothing-found">Nothing found</div>)}
             </ul>
         </div>
     )
