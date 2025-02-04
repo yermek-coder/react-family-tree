@@ -28,3 +28,7 @@ export function objectToHttpParams(obj, prefix = null) {
 
     return list.join("&");
 }
+
+export function uniqById(arr, track = new Set()) {
+    return arr.filter(({ id }) => (track.has(id) ? false : track.add(id)));
+}

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PersonPicker from "./Picker";
-import personManager from "@/services/person";
 import { useNavigate } from "react-router";
 import { objectToHttpParams } from "@/util"
 
@@ -14,14 +13,7 @@ export default function ConnectionForm() {
     async function submit(e) {
         e.preventDefault();
         if (validate()) {
-            e.preventDefault()
-            const results = await personManager.getAncestor(person1.id, person2.id)
-            const ancestors = Object.fromEntries(results.filter(Boolean).map((id, idx) => ["ancestor" + (idx + 1), id]))
-            if (Object.keys(ancestors).length) {
-                navigate(`/connection/result?${objectToHttpParams({ ...ancestors, person1: person1.id, person2: person2.id })}`)
-            } else {
-                setErrors({ ...errors, notFound: "No Ancestor Found" })
-            }
+            navigate(`/connection/result?${objectToHttpParams({ person1: person1.id, person2: person2.id })}`)
         }
     }
 
@@ -56,10 +48,7 @@ export default function ConnectionForm() {
                 </div>
             </div>
 
-            <div className="d-flex align-items-center gap-2">
-                <button className="btn btn-primary" type="submit">Find</button>
-                {errors.notFound && <div className="text-danger">{errors.notFound}</div>}
-            </div>
+            <button className="btn btn-primary" type="submit">Find</button>
         </form>
     )
 }

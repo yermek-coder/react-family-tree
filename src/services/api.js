@@ -8,7 +8,7 @@ class API {
     }
 
     exec(method, path, body = null, config = {}) {
-        const headers = {}
+        const headers = {};
         // Check upload type
         if (body && typeof body == "object" && !(body instanceof FormData)) {
             body = JSON.stringify(body);
@@ -20,7 +20,7 @@ class API {
             body,
             method,
             ...config,
-            headers,
+            headers
         }).then(async res => {
             if (res.status >= 400) {
                 let payload = { message: await res.text() };
@@ -42,4 +42,4 @@ class API {
     }
 }
 
-export default new API()
+export default new API();

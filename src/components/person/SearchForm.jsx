@@ -1,5 +1,6 @@
 import { useState } from "react"
 import personManager from "@/services/person";
+import Loading from "@/components/common/Loading";
 
 export default function SearchForm() {
     const [name, setName] = useState("")
@@ -38,13 +39,7 @@ export default function SearchForm() {
                     {loading ?
                         <tr>
                             <td colSpan={2}>
-                                <div className="loading d-flex align-items-center justify-content-center rounded py-5">
-                                    <div className="text-center">
-                                        <div>
-                                            <div className="spinner-border text-primary"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <Loading />
                             </td>
                         </tr>
                         : persons.map(person => (

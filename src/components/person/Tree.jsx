@@ -1,34 +1,26 @@
 import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 
-export default function PersonTree({ ancestors, persons }) {
+export default function PersonTree({ persons }) {
     const container = useRef(null);
     const data = {
-        nodes: [
-            {
-                id: "ancestors",
-                group: "Ancestor",
-                radius: 2,
-                name: ancestors.map(item => item.name).join(", ")
-            },
-            ...persons.map((item, idx) => ({
-                id: "person" + (idx + 1),
-                group: "Relatives",
-                name: item.name
-            }))
-        ],
-        links: [1, 2].map(idx => ({
-            source: "ancestors",
-            target: "person" + idx,
-            value: 10
-        }))
+        nodes: persons,
+        links: persons.map(person => {
+            if (person.parent) {
+                return {
+                    source: person.parent,
+                    target: person.id,
+                    value: 10
+                }
+            }
+        }).filter(Boolean)
     };
 
     useEffect(() => {
         // Specify the dimensions of the chart.
         const width = container.current.clientWidth;
         const height = 500;
-        const nodeRadius = 15
+        const nodeRadius = 15;
 
         // Specify the color scale.
         const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -47,7 +39,10 @@ export default function PersonTree({ ancestors, persons }) {
             )
             .force("charge", d3.forceManyBody().strength(-200))
             .force("x", d3.forceX())
-            .force("y", d3.forceY(d => (d.group === "Ancestor" ? -height / 6 : height / 12)).strength(0.5)); // Position ancestors at the top and children at the bottom
+            .force("y", d3.forceY(d => {
+                const force = (d.group - 1) * (height / 6);
+                return d.group < 6 ? -height / 6 + force : height / 6 + force
+            }).strength(0.5)); // Position ancestors at the top and children at the bottom
 
         // Create the SVG container.
         const svg = d3
