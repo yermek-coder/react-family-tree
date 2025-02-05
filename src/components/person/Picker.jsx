@@ -36,7 +36,10 @@ export default function PersonPicker({ id, value, onChange, exclude, className, 
     return (
         <div className={`dropdown ${className}`}>
             {value ? <div className="form-control d-flex align-center justify-content-between gap-2">
-                <span>{value.name}</span>
+                <div>
+                    <span>{value.name}, </span>
+                    <span>ID: {value.id}</span>
+                </div>
                 <button onClick={reset} className="btn btn-outline-secondary btn-sm border-0 px-2 py-0">
                     <Icon icon="x-circle" />
                 </button>
@@ -45,7 +48,10 @@ export default function PersonPicker({ id, value, onChange, exclude, className, 
 
             <ul className={`dropdown-menu ${name && persons.length ? "show" : ""}`}>
                 {name && persons.length && persons.map(person => (
-                    <li key={person.id}><a onClick={() => pickPerson(person)} className="dropdown-item" href="#">{person.name}</a></li>
+                    <li key={person.id}><a onClick={() => pickPerson(person)} className="dropdown-item d-flex gap-2 align-items-center" href="#">
+                        <span>{person.name}, </span>
+                        <span>ID: {person.id}</span>
+                    </a></li>
                 ))}
             </ul>
         </div>
