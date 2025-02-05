@@ -3,15 +3,15 @@ import PersonPicker from "./Picker";
 import personManager from "@/services/person";
 
 export default function CreateForm() {
-    const [mother, setMother] = useState(null)
-    const [father, setFather] = useState(null)
+    const [mother, setMother] = useState("")
+    const [father, setFather] = useState("")
     const [dob, setDob] = useState("")
     const [name, setName] = useState("")
     const [message, setMessage] = useState("")
 
     async function submit(e) {
         e.preventDefault()
-        await personManager.add({ name, father_id: father?.id, mother_id: mother?.id, dob })
+        await personManager.add({ name, father_id: father, mother_id: mother, dob })
         setMessage("Created Successfully!")
         setName("")
         setDob("")
@@ -34,15 +34,15 @@ export default function CreateForm() {
                 </div>
             </div>
             <div className="row mb-3">
-                <label htmlFor="inputFather" className="col-sm-2 col-form-label">Father:</label>
+                <label htmlFor="inputFather" className="col-sm-2 col-form-label">Father ID:</label>
                 <div className="col-sm-10">
-                    <PersonPicker id="inputFather" value={father} onChange={setFather} exclude={[mother].filter(Boolean)} />
+                    <input id="inputFather" value={father} onChange={(e) => setFather(e.target.value)} className="form-control" />
                 </div>
             </div>
             <div className="row mb-3">
-                <label htmlFor="inputMother" className="col-sm-2 col-form-label">Mother:</label>
+                <label htmlFor="inputMother" className="col-sm-2 col-form-label">Mother ID:</label>
                 <div className="col-sm-10">
-                    <PersonPicker id="inputMother" value={mother} onChange={setMother} exclude={[father].filter(Boolean)} />
+                    <input id="inputMother" value={mother} onChange={(e) => setMother(e.target.value)} className="form-control" />
                 </div>
             </div>
 
