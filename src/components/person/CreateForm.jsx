@@ -34,13 +34,13 @@ export default function CreateForm() {
                 </div>
             </div>
             <div className="row mb-3">
-                <label htmlFor="inputFather" className="col-sm-2 col-form-label">Father ID:</label>
+                <label htmlFor="inputFather" className="col-sm-2 col-form-label">Father:</label>
                 <div className="col-sm-10">
                     <PersonPicker id="inputFather" value={father} onChange={setFather} exclude={[mother].filter(Boolean)} />
                 </div>
             </div>
             <div className="row mb-3">
-                <label htmlFor="inputMother" className="col-sm-2 col-form-label">Mother ID:</label>
+                <label htmlFor="inputMother" className="col-sm-2 col-form-label">Mother:</label>
                 <div className="col-sm-10">
                     <PersonPicker id="inputMother" value={mother} onChange={setMother} exclude={[father].filter(Boolean)} />
                 </div>

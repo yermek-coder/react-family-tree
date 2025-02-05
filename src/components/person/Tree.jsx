@@ -19,7 +19,6 @@ export default function PersonTree({ persons }) {
     useEffect(() => {
         // Specify the dimensions of the chart.
         const width = container.current.clientWidth;
-        const height = 500;
         const nodeRadius = 15;
 
         // Specify the color scale.
@@ -29,6 +28,11 @@ export default function PersonTree({ persons }) {
         // so that re-evaluating this cell produces the same result.
         const links = data.links.map(d => ({ ...d }));
         const nodes = data.nodes.map(d => ({ ...d }));
+
+        const minGroup = Math.min(...data.nodes.map(item => item.group));
+        const maxGroup = Math.max(...data.nodes.map(item => item.group));
+
+        const height = 500 * (maxGroup / 5);
 
         // Create a simulation with several forces.
         const simulation = d3
@@ -40,8 +44,7 @@ export default function PersonTree({ persons }) {
             .force("charge", d3.forceManyBody().strength(-200))
             .force("x", d3.forceX())
             .force("y", d3.forceY(d => {
-                const force = (d.group - 1) * (height / 6);
-                return d.group < 6 ? -height / 6 + force : height / 6 + force
+                return ((d.group - minGroup) / (maxGroup - minGroup) - 0.5) * height * 0.5
             }).strength(0.5)); // Position ancestors at the top and children at the bottom
 
         // Create the SVG container.
