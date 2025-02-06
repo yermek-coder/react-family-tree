@@ -3,15 +3,15 @@ import PersonPicker from "./Picker";
 import personManager from "@/services/person";
 
 export default function CreateForm() {
-    const [mother, setMother] = useState("")
-    const [father, setFather] = useState("")
+    const [mother, setMother] = useState(null)
+    const [father, setFather] = useState(null)
     const [dob, setDob] = useState("")
     const [name, setName] = useState("")
     const [message, setMessage] = useState("")
 
     async function submit(e) {
         e.preventDefault()
-        await personManager.add({ name, father_id: father, mother_id: mother, dob })
+        await personManager.add({ name, father_id: father?.id, mother_id: mother?.id, dob })
         setMessage("Created Successfully!")
         setName("")
         setDob("")

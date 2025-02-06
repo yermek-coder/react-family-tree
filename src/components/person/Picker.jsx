@@ -19,7 +19,7 @@ export default function PersonPicker({ id, value, onChange, exclude, className, 
     }, 250)
 
     useEffect(() => {
-        fetchPersons(name)
+        name && fetchPersons(name)
     }, [name])
 
     function pickPerson(person) {
@@ -43,7 +43,7 @@ export default function PersonPicker({ id, value, onChange, exclude, className, 
                 <button onClick={reset} className="btn btn-outline-secondary btn-sm border-0 px-2 py-0">
                     <Icon icon="x-circle" />
                 </button>
-            </div> : <input value={name} onInput={(e) => setName(e.target.value)} type="text" id={id} className={`form-control ${error && 'is-invalid'}`} />}
+            </div> : <input value={name} onInput={(e) => setName(e.target.value.trimStart())} type="text" id={id} className={`form-control ${error && 'is-invalid'}`} />}
             {error && <div className="invalid-feedback">{error}</div>}
 
             <ul className={`dropdown-menu ${name && persons.length ? "show" : ""}`}>
