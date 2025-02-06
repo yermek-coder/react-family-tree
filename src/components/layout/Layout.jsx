@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import Header from "@/components/common/Header.jsx"
+import Header from "@/components/layout/Header.jsx"
 
 export function meta() {
     return [
